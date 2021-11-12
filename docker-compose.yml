@@ -1,0 +1,41 @@
+version: "3"
+
+
+volumes:
+  wp_dev: {}
+  wp_db_data: {}
+
+services:
+
+  wp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: admin
+      WORDPRESS_DB_PASSWORD: admin
+      WORDPRESS_DB_NAME: admin
+      WORDPRESS_DEBUG: "1"
+      WORDPRESS_CONFIG_EXTRA: |
+          define( 'WP_DEBUG', true );
+          define( 'WP_DEBUG_DISPLAY', false );
+          define( 'WP_DEBUG_LOG', true );
+          define('FS_METHOD', 'direct');
+          define( 'SCRIPT_DEBUG', true );
+    volumes:
+      - wp_dev:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: admin
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin
+    volumes:
+      - wp_db_data:/var/lib/mysql

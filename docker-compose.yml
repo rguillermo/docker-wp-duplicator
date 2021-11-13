@@ -29,6 +29,7 @@ services:
       - wp_dev:/var/www/html
     depends_on:
       - db
+      - mailhog
 
   db:
     image: mysql:5.7
@@ -39,3 +40,9 @@ services:
       MYSQL_ROOT_PASSWORD: admin
     volumes:
       - wp_db_data:/var/lib/mysql
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025

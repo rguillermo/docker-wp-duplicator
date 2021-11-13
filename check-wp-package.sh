@@ -5,8 +5,6 @@ set -eo pipefail
 workdir='/var/www/html'
 duplicator_package="$workdir/duplicator_package"
 
-echo "There are $# arguments passed"
-
 if [[ -e $duplicator_package/installer.php ]]
 
 then
@@ -18,7 +16,8 @@ then
     exec "$@"
 
 else
-    echo "$duplicator_package/installer.php does not exists"
+    echo "Duplicator package not found"
+    echo "Running image original entrypoint"
     docker-entrypoint.sh $1
 
 fi
